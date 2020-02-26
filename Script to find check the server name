@@ -1,0 +1,32 @@
+
+week=`ls -lrt 201* | grep 2015 | tail -1 | cut -d ":" -f1`
+cat data | while read line
+do
+cd /etc/opt/OV/share/capacity_reports/weekly_final_reports/$week/DISK
+ls -lrt | grep -i "$line" > /dev/null
+if [ $? != 0 ]
+then
+echo " $line disk data not found for this server "
+fi
+
+cd /etc/opt/OV/share/capacity_reports/weekly_final_reports/$week/CPU
+ls -lrt | grep -i "$line" > /dev/null
+if [ $? != 0 ]
+then
+echo " $line CPU data not found for this server "
+fi
+
+cd /etc/opt/OV/share/capacity_reports/weekly_final_reports/$week/OS
+ls -lrt | grep -i "$line" > /dev/null
+if [ $? != 0 ]
+then
+echo " $line OS data not found for this server "
+fi
+
+cd /etc/opt/OV/share/capacity_reports/weekly_final_reports/$week/MEM
+ls -lrt | grep -i "$line" > /dev/null
+if [ $? != 0 ]
+then
+echo " $line MEM data not found for this server "
+fi
+done
