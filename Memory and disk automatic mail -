@@ -1,0 +1,10 @@
+
+free -m | awk 'NR==2{printf "Memory Usage: %s/%sMB (%.2f%)\n", $3,$2,$3*100/$2 }' && df -h | awk '$NF=="/"{printf "Disk Usage: %d/%dGB (%s)\n", $3,$2,$5}'&& top -bn1 | grep load | awk '{printf "CPU Load: %.2f\n", $(NF-2)}' &&
+
+echo CPU: `top -b -n1 | grep "Cpu(s)" | awk '{print $2 + $4}'` 
+
+
+free -m | awk 'NR==2{printf "Memory Usage: %s/%sMB (%.2f%)\n", $3,$2,$3*100/$2 }' | awk '{print $4;}' | awk -F'(' '{print $2;}' | cut -c1-5
+df -h | awk '$NF=="/"{printf "Disk Usage: %d/%dGB (%s)\n", $3,$2,$5}' | awk '{print $4;}' | cut -c2-3
+
+ffree -m | awk 'NR==2{printf "Memory Usage: %s/%sMB (%.2f%)\n", $3,$2,$3*100/$2 }' && df -h | awk '$NF=="/"{printf "Disk Usage: %d/%dGB (%s)\n", $3,$2,$5}'&& echo CPU: `top -b -n1 | grep "Cpu(s)" | awk '{print $2 + $4}'` 
