@@ -1,0 +1,23 @@
+
+#!/bin/sh
+hostname1=`hostname`
+process1=$(ps  -ef | egrep  "srmAIX|srmHPUX|srmLINUX|srmSUN" | grep -v "grep"| wc -l)
+process=4
+cd /var/adm/perfmgr/daily/$hostname1
+size=$(ls -lrt | tail -1 | awk '{print$5}')
+
+data2=$(find /var/adm/perfmgr/daily/$hostname -type  f  -mtime -2  | grep gz | wc -l)
+if [ $process1 !=  $process ] || [ $size -lt 2 ] || [ $data2 -eq 0 ]
+then
+#Give the complete path of terminate s.rm and verify.srm- you can search full path by find / -name terimnate.srm
+
+sh /var/adm/srm/bin/terminate.srm
+sh /var/adm/srm/bin/verify.srm
+cd /var/adm/perfmgr/daily
+echo `date` >> log.txt
+echo "agent is not working in $hostname1">> log.txt
+else
+cd /var/adm/perfmgr/daily
+echo `date` >> log.txt
+echo "agent is working in $hostname1" >> log.txt
+fi
